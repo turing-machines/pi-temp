@@ -32,7 +32,7 @@ app.get('/api/get-node-temp', async (_req, resp) => {
 });
 // API route for getting temperature of the cluster
 app.get('/api/get-cluster-temp', async (req, resp) => {
-    var podIpList = (await sh_exec("nslookup pi-temp-headless 2>/dev/null | grep Address | awk '{print $3}'")).split("\n");
+    var podIpList = (await sh_exec("kubectl get pods -n pi-temp -o wide 2>/dev/null | grep pi-temp | awk '{print $6}'")).split("\n");
     var podIpList = podIpList.filter((item) => { return item.trim() != '' });
     var result = [];
 for (let i = 0; i < podIpList.length; i++){
